@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Auth with Web Component</title>
+        <!-- CSS only -->
+        <link rel="stylesheet" href="style.css">
+        <!-- Script Component -->
+        <script src="/components/popupInfo/popup.js" defer></script>
+        <script src="/components/rating/rating.js" ></script>
+        <script src="/components/modal/modalIn.js" defer></script>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="container">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <ul class="navbar-nav">
+                    <li class="navbar-item logged-out" style="display: block">
+                        <!-- a class="nav-link" href="#" onclick="openModal('modalLogin', this)">Login</a> -->
+                        <modal-in data-id="modalLogin" data-text="Login"></modal-in>
+                    </li>
+                    <li class="navbar-item logged-out" style="display: block">
+                        <!-- <a class="nav-link" href="#">Signup</a> -->
+                        <modal-in data-id="modalSignup" data-text="Signup"></modal-in>
+                    </li>
+                    <li class="navbar-item logged-in" style="display: block">
+                        <a class="nav-link" href="#" id="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- MODAL LOGIN -->
+        <!-- <modal-in data-id="modalLogin"></modal-in> -->
+
+        <template id="modal-template">
+            <button class="modal-btn" onclick="openOwnModal(this)">btnModal</button>
+            <dialog class="modal-content">
+                <p>titolo prova</p>
+                <p>descrizione prova</p>
+                <button id="close" onclick="closeModal(this)">X</button>
+            </dialog>
+        </template>
+
+
+
+        <script src="main.js"></script>
+    </body>
+</html>
