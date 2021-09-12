@@ -157,21 +157,20 @@ class ModalIn extends HTMLElement {
   }
 
   connectedCallback () {
-    let shadowRoot = this.attachShadow({mode: 'open'});
+    // let shadowRoot = this.attachShadow({mode: 'open'}); //!no shadow for open dialog
     /* style in shadow */
-    this.createStyleNode(shadowRoot, styles)
+    this.createStyleNode(this, styles)
     /* template in shadow */
-    this.createTemplateNode(shadowRoot, 'modal-template');
+    this.createTemplateNode(this, 'modal-template');
 
-    let modalContent = shadowRoot.querySelector('.modal-content');
+    let dialog = this.querySelector('.modal-content');
     if(this.dataId) {
-      /* let form = modalContent.querySelector('.modal-form');
-      form.setAttribute('id', this.getAttribute('data-id')) */
+      dialog.setAttribute('id', this.getAttribute('data-id'));
     }
     if(this.dataText) {
       this._text = this.getAttribute('data-text');
-      let btnTxt = shadowRoot.querySelector('.modal-btn');
-      btnTxt.innerHTML = this._text;
+      let title = this.querySelector('.modal-title');
+      title.innerHTML = this._text;
     }
     /* if(this.maxWidth){
       modalContent.style.maxWidth = this.getAttribute('max-width');
@@ -188,6 +187,7 @@ class ModalIn extends HTMLElement {
     shadowRoot.querySelector('.btn-close').addEventListener('click', e => {
       this.style.display = 'none';
     }); */
+   
    
   }
 
