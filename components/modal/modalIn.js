@@ -15,16 +15,6 @@ function addClasses(element, classes) {
     element.classList.add(...classes)
 }
 
-function openOwnModal(el) {
-  let dialog = el.nextElementSibling;
-  dialog.setAttribute('open', true)
-}
-
-function closeModal(element) {
-  element.parentElement.removeAttribute("open");
-}
-
-
 const styles = `
 .modal {
   display: block;
@@ -129,9 +119,6 @@ class ModalIn extends HTMLElement {
     return this.hasAttribute('animate');
   }
   
-  remove(){
-    this.parentNode.removeChild(this);
-  }
   attributeChangedCallback(name, oldValue, newValue) {
     if(this.shadowRoot){
       let modalContent = this.shadowRoot.querySelector('.modal-content');
@@ -157,13 +144,14 @@ class ModalIn extends HTMLElement {
   }
 
   connectedCallback () {
-    // let shadowRoot = this.attachShadow({mode: 'open'}); //!no shadow for open dialog
+    let shadowRoot = this.attachShadow({mode: 'open'}); //!no shadow for open dialog
     /* style in shadow */
-    this.createStyleNode(this, styles)
+    this.createStyleNode(shadowRoot, styles)
     /* template in shadow */
-    this.createTemplateNode(this, 'modal-template');
+    this.createTemplateNode(shadowRoot, 'modal-template');
 
     let dialog = this.querySelector('.modal-content');
+    console.log("dialog: ",dialog)
     if(this.dataId) {
       dialog.setAttribute('id', this.getAttribute('data-id'));
     }
@@ -187,7 +175,12 @@ class ModalIn extends HTMLElement {
     shadowRoot.querySelector('.btn-close').addEventListener('click', e => {
       this.style.display = 'none';
     }); */
-   
+
+    dialog.addEventListener('click', (e) => {
+      if(e.target.tagName == 'BUTTON') {
+        dialog.removeAttribute('open');
+      }
+    })
    
   }
 
