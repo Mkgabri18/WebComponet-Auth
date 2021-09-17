@@ -6,10 +6,12 @@
 html, body {
     margin: 0;
     padding: 0;
+    height: 100vh;
 }
 
 body {
     font-size: 1em;
+    background: #ddd;
 }
 
 .container {
