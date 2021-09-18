@@ -1,199 +1,125 @@
-/* Custom element selector/create */
-function selectElement(element) {
-    return document.querySelector(element);
-}
-
-function createNode(element) {
-    return document.createElement(element);
-}
-
-function append(parentEl, childEl) {
-    return parentEl.appendChild(childEl);
-}
-
-function addClasses(element, classes) {
-    element.classList.add(...classes)
-}
-
-const styles = `
-.modal {
-  display: block;
-  position: fixed;
-  z-index: 3000;
-  padding-top: 100px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-  font-family: Verdana,sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-}
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  width: 95%;
-  max-width:768px;
-}
-.modal-btn {
-  background-color: transparent;
-  color: #ddd;
-  border: none;
-  font-size: 1.2em;
-  font-weight: normal;
-}
-.divheader {
-  padding: 10px;
-  z-index: 10;
-  background-color: #2196F3;
-  color: #fff;
-}
-.container{
-  padding: 20px;
-}
-.btn, .button {
-  border: none;
-  display: inline-block;
-  padding: 8px 16px;
-  vertical-align: middle;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  background-color: inherit;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.btn, .button {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.display-topright {
-  position: relative;
-  right: -9px;
-  top: -33px;
-  float: right;
-}
-@media (max-width:768px){
-  .modal{
-    padding-top:50px;
-  }
-}
-.animate-top{
-  position:relative;
-  animation:animatetop 0.4s;
-}
-@keyframes animatetop{
-  from{top:-300px;opacity:0}
-  to{top:0;opacity:1}
-}`;
-
 class ModalIn extends HTMLElement {
   constructor () {
     super();
     this._text = "title";
   }
   static get observedAttributes() {
-    return ['data-id', 'data-text','max-width','width','animate'];
+    return ['data-id', 'data-title', 'data-open'];
   }
   get dataId() {
     return this.hasAttribute('data-id');
   }
-  get dataText() {
-    return this.hasAttribute('data-text');
+  get dataTitle() {
+    return this.hasAttribute('data-title');
   }
-  get maxWidth() {
-    return this.hasAttribute('max-width');
-  }
-  get width() {
-    return this.hasAttribute('width');
-  }
-  get animate() {
-    return this.hasAttribute('animate');
+  get dataOpen() {
+    return this.hasAttribute('data-open')
   }
   
   attributeChangedCallback(name, oldValue, newValue) {
     if(this.shadowRoot){
-      let modalContent = this.shadowRoot.querySelector('.modal-content');
-      console.log("content", modalContent)
-      if (this.maxWidth) {
-        modalContent.style.maxWidth = this.getAttribute('max-width');
-      } else {
-        modalContent.style.maxWidth = '768px';
-      }
-
-      if (this.width) {
-        modalContent.style.width = this.getAttribute('width');
-      } else {
-        modalContent.style.width = "95%";
-      }
-
-      if (this.animate) {	
-        modalContent.classList.add("animate-top");
-      } else {
-        modalContent.classList.remove("animate-top");
+      let modal = this.shadowRoot.querySelector('dialog');
+      if(this.dataOpen) {
+        modal.setAttribute('open', true)
       }
     }
   }
 
   connectedCallback () {
-    let shadowRoot = this.attachShadow({mode: 'open'}); //!no shadow for open dialog
-    /* style in shadow */
-    this.createStyleNode(shadowRoot, styles)
+    let shadowRoot = this.attachShadow({mode: 'open'});
     /* template in shadow */
-    this.createTemplateNode(shadowRoot, 'modal-template');
+    this.createTemplateNode(shadowRoot);
 
-    let dialog = this.querySelector('.modal-content');
-    console.log("dialog: ",dialog)
-    if(this.dataId) {
-      dialog.setAttribute('id', this.getAttribute('data-id'));
-    }
-    if(this.dataText) {
-      this._text = this.getAttribute('data-text');
-      let title = this.querySelector('.modal-title');
-      title.innerHTML = this._text;
-    }
-    /* if(this.maxWidth){
-      modalContent.style.maxWidth = this.getAttribute('max-width');
-    }
-
-    if(this.width){
-      modalContent.style.width = this.getAttribute('width');
-    }
-
-    if(this.animate){
-      modalContent.classList.add("animate-top");
-    }
-
-    shadowRoot.querySelector('.btn-close').addEventListener('click', e => {
-      this.style.display = 'none';
-    }); */
+    let dialog = this.shadowRoot.querySelector('dialog');
 
     dialog.addEventListener('click', (e) => {
       if(e.target.tagName == 'BUTTON') {
         dialog.removeAttribute('open');
+        this.removeAttribute('data-open')
       }
     })
    
   }
 
-  createStyleNode(root, styleRule) {
-    let style = createNode('style');
-    style.innerHTML = styleRule;
-    append(root, style);
-  }
-
-  createTemplateNode(root, templateRule) {
-    let template = document.getElementById(templateRule);
-    let templateContent = template.content;
-    append(root, templateContent.cloneNode(true));
+  createTemplateNode(root) {
+    let template = `
+      <style>
+        dialog {
+          width: 30vw;
+          min-height: 300px;
+          border: 0;
+          box-shadow: 0 0 5px rgba(0,0,0,0.5);
+          border-radius: 5px;
+          padding: 0;
+        }
+        .dialog-header {
+          padding: 1em;
+          background: rgb(85, 179, 226);
+          display: flex;
+        }
+        h3 {
+          flex-grow: 1;
+          text-align: center;
+          margin: 0;
+        }
+        .form-group {
+          padding: .5em 1em;
+          display: flex;
+          flex-direction: column;
+        }
+        .form-group label {padding: 0.5em 0;}
+        .form-group input {
+          padding: .5em;
+        }
+        .form-btn {
+          padding: .5em 0;
+          margin-bottom: .8em;
+          background-color: #ddd;
+          border: none;
+          border-radius: 5px;
+        }
+        .form-btn.btn-Facebook { background-color: blue;}
+        .dialog-overlay {
+          display: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0,0,0,0.3);
+        }
+        :host([data-open]) .dialog-overlay {
+          display: block;
+        }
+      </style>
+      <div class="dialog-overlay"></div>
+      <dialog id="${this.getAttribute("data-id")}" >
+        <div class="dialog-header">
+          <h3>
+            ${this.getAttribute("data-title")}
+          </h3>
+          <button type="button">X</button>
+        </div>
+        <div class="dialog-body">
+          <form>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email">
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password</label>
+              <input id="pwd">
+            </div>
+            <div class="form-group">
+              <button type="submit" class="form-btn">Login</button>
+              <button type="submit" class="form-btn btn-Google">Login with Google</button>
+              <button type="submit" class="form-btn btn-Facebook">Login with Facebook</button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+    `;
+    root.innerHTML = template;
   }
 
 }
