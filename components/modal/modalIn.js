@@ -54,31 +54,47 @@ class ModalIn extends HTMLElement {
         }
         .dialog-header {
           padding: 1em;
-          background: rgb(85, 179, 226);
           display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid #ddd;
         }
-        h3 {
-          flex-grow: 1;
-          text-align: center;
+        h5 {
           margin: 0;
+          font-size: 1.25em;
+          font-weight: 500;
+        }
+        .close-btn {
+          text-decoration: none;
+          cursor: pointer;
+          opacity: 0.75;
+          border: 0;
+          background-color: transparent;
+          font-size: 1em;
         }
         .form-group {
           padding: .5em 1em;
           display: flex;
           flex-direction: column;
         }
-        .form-group label {padding: 0.5em 0;}
+        .form-group label {
+          padding: 0.5em 0;
+          color: #888;
+        }
         .form-group input {
           padding: .5em;
         }
         .form-btn {
           padding: .5em 0;
           margin-bottom: .8em;
-          background-color: #ddd;
+          background-color: #8c9299;
           border: none;
-          border-radius: 5px;
+          border-radius: 0.25em;
+          line-height: 1.5;
+          user-select: none;
+          color: #fff;
         }
-        .form-btn.btn-Facebook { background-color: blue;}
+        .form-btn.btn-Google { background-color: #e54848;}
+        .form-btn.btn-Facebook { background-color: #0f5ccd;}
         .dialog-overlay {
           display: none;
           position: absolute;
@@ -95,10 +111,10 @@ class ModalIn extends HTMLElement {
       <div class="dialog-overlay"></div>
       <dialog id="${this.getAttribute("data-id")}" >
         <div class="dialog-header">
-          <h3>
+          <h5>
             ${this.getAttribute("data-title")}
-          </h3>
-          <button type="button">X</button>
+          </h5>
+          <button type="button" class="close-btn">X</button>
         </div>
         <div class="dialog-body">
           <form>
