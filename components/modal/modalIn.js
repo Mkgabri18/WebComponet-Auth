@@ -26,7 +26,7 @@ class ModalIn extends HTMLElement {
   }
 
   connectedCallback () {
-    let shadowRoot = this.attachShadow({mode: 'open'}); //!no shadow for open dialog
+    let shadowRoot = this.attachShadow({mode: 'open'});
     /* template in shadow */
     this.createTemplateNode(shadowRoot);
 
@@ -67,11 +67,32 @@ class ModalIn extends HTMLElement {
           display: flex;
           flex-direction: column;
         }
-        .form-group label,
+        .form-group label {padding: 0.5em 0;}
         .form-group input {
+          padding: .5em;
+        }
+        .form-btn {
           padding: .5em 0;
+          margin-bottom: .8em;
+          background-color: #ddd;
+          border: none;
+          border-radius: 5px;
+        }
+        .form-btn.btn-Facebook { background-color: blue;}
+        .dialog-overlay {
+          display: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0,0,0,0.3);
+        }
+        :host([data-open]) .dialog-overlay {
+          display: block;
         }
       </style>
+      <div class="dialog-overlay"></div>
       <dialog id="${this.getAttribute("data-id")}" >
         <div class="dialog-header">
           <h3>
@@ -90,9 +111,9 @@ class ModalIn extends HTMLElement {
               <input id="pwd">
             </div>
             <div class="form-group">
-              <button type="submit">Login</button>
-              <button type="submit">Login with Google</button>
-              <button type="submit">Login with Facebook</button>
+              <button type="submit" class="form-btn">Login</button>
+              <button type="submit" class="form-btn btn-Google">Login with Google</button>
+              <button type="submit" class="form-btn btn-Facebook">Login with Facebook</button>
             </div>
           </form>
         </div>

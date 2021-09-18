@@ -5,6 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Auth with Web Component</title>
+        <!-- Google fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet"> 
         <!-- CSS only -->
         <link rel="stylesheet" href="style.css">
         <!-- Script Component -->
@@ -16,10 +20,10 @@
                 <a class="navbar-brand" href="#">Navbar</a>
                 <ul class="navbar-nav">
                     <li class="navbar-item logged-out" style="display: block">
-                        <a class="nav-link" href="#" onclick="openModal('modalLogin', this)">Login</a>
+                        <a class="nav-link" href="#" onclick="openModal('modalLogin')">Login</a>
                     </li>
                     <li class="navbar-item logged-out" style="display: block">
-                        <a class="nav-link" href="#" onclick="openModal('modalSignup', this)">Signup</a>
+                        <a class="nav-link" href="#" onclick="openModal('modalSignup')">Signup</a>
                     </li>
                     <li class="navbar-item logged-in" style="display: block">
                         <a class="nav-link" href="#" id="logout">Logout</a>
@@ -33,10 +37,6 @@
         
         <!-- MODAL SIGNUP -->
         <modal-in data-id="modalSignup" data-title="Signup"></modal-in>
-
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
 
 
         <script src="main.js"></script>
