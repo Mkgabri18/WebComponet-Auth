@@ -32,6 +32,7 @@ class ModalIn extends HTMLElement {
 
     let dialog = this.shadowRoot.querySelector('dialog');
 
+    // Close
     dialog.addEventListener('click', (e) => {
       if(e.target.tagName == 'BUTTON') {
         dialog.removeAttribute('open');
@@ -42,6 +43,7 @@ class ModalIn extends HTMLElement {
   }
 
   createTemplateNode(root) {
+    let tittle = this.getAttribute("data-title");
     let template = `
       <style>
         dialog {
@@ -107,12 +109,13 @@ class ModalIn extends HTMLElement {
         :host([data-open]) .dialog-overlay {
           display: block;
         }
+        .hidden {display: none;}
       </style>
       <div class="dialog-overlay"></div>
       <dialog id="${this.getAttribute("data-id")}" >
         <div class="dialog-header">
           <h5>
-            ${this.getAttribute("data-title")}
+            ${tittle}
           </h5>
           <button type="button" class="close-btn">X</button>
         </div>
@@ -127,9 +130,9 @@ class ModalIn extends HTMLElement {
               <input id="pwd">
             </div>
             <div class="form-group">
-              <button type="submit" class="form-btn">Login</button>
-              <button type="submit" class="form-btn btn-Google">Login with Google</button>
-              <button type="submit" class="form-btn btn-Facebook">Login with Facebook</button>
+              <button type="submit" class="form-btn">${tittle}</button>
+              <button type="submit" class="form-btn btn-Google ${tittle !== 'Login' ? 'hidden' : ''}">Login with Google</button>
+              <button type="submit" class="form-btn btn-Facebook ${tittle !== 'Login' ? 'hidden' : ''}">Login with Facebook</button>
             </div>
           </form>
         </div>
