@@ -11,7 +11,7 @@ html, body {
 
 body {
     font-size: 1em;
-    background: #ddd;
+    background: var(--t-white);
     font-family: 'Roboto', sans-serif;
 }
 
